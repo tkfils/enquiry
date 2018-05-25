@@ -55,24 +55,25 @@ $preamble .= "</div>";
 $preamble .= "</nav>";
 echo $preamble;
 
-$con = mysqli_connect("localhost", "db", "user","pass");
+$con = mysqli_connect("localhost", "enquiry", "enquiry","enquiry");
 if (!$con)
   {
   die('Could not connect: ' . mysql_error());
   }
 $qid = $_GET['id'];
 $output = "";
+$output .= "<div class=\"fluid-container\">";
 $query_string="SELECT * from enquiry where id='$qid'";
 $result=mysqli_query($con,$query_string);
 while($array = mysqli_fetch_array($result)){
 echo "<form action=\"add_enquiry_doit.php\" method=\"post\">";
-echo "<h4>Enquirer</h4>";
+echo "<h3>Enquirer</h3>";
 $output .= "&nbsp;<label>Name :&nbsp; </label><input required type=\"text\" name=\"enquirer_name\" size=\"30\" value=\"".$array['enquirer_name']."\">";
 $output .= "&nbsp;<label>Email :&nbsp; </label><input required type=\"email\" name=\"enquirer_email\" size=\"30\"value=\"".$array['enquirer_email']."\">";
 $output .= "&nbsp;<label>Phone :&nbsp; </label><input type=\"text\" name=\"enquirer_phone\" size=\"12\" value=\"".$array['enquirer_phone']."\">";
 $output .= "&nbsp;<label>Notes :&nbsp; </label><input type=\"text\" name=\"enquirer_notes\" size=\"30\" value=\"".$array['enquirer_notes']."\">";
-$output .= "<nobr>&nbsp;<label>Job :&nbsp; </label><input type=\"text\" name=\"enquirer_job\" size=\"30\" value=\"".$array['enquirer_job']."\"></nobr>";
-$output .= "<nobr>&nbsp;<label>Category :&nbsp; </label><select name=\"enquirer_category\"><option selected=\"selected\" value=\"".$array['enquirer_category']."\">".$array['enquirer_category']."</option></nobr>"; 
+$output .= "&nbsp;<label>Job :&nbsp; </label><input type=\"text\" name=\"enquirer_job\" size=\"30\" value=\"".$array['enquirer_job']."\">";
+$output .= "&nbsp;<label>Category :&nbsp; </label><select name=\"enquirer_category\"><option selected=\"selected\" value=\"".$array['enquirer_category']."\">".$array['enquirer_category']."</option>"; 
 $query_string1 = "select distinct enquirer_category from enquiry where enquirer_category <> '' order by enquirer_category asc";
 $result=mysqli_query($con,$query_string1);
 while($array1 = mysqli_fetch_array($result)){
@@ -81,9 +82,9 @@ $output .= "<option value=\"".$array1['enquirer_category']."\">".$array1['enquir
 $output .= "</select>";
 
 $output .="<hr>";
-$output .="<h4>Enquiry</h4>";
+$output .="<h3>Enquiry</h3>";
 $output .= "&nbsp;<label>Source :&nbsp; </label><select required=\"required\" name=\"enquiry_source\"><option selected=\"selected\" value=\"".$array['enquiry_source']."\">".$array['enquiry_source']."</option>";
-$query_string2 = "select distinct enquiry_source from enquiry where enquiry_source <> '' and enquiry_source <> 'text' and enquiry_source <> 'gpccqa' order by enquiry_source asc";
+$query_string2 = "select distinct enquiry_source from enquiry where enquiry_source <> '' and enquiry_source <> 'text' and enquiry_source <> 'im' and enquiry_source <> 'gpccqa' order by enquiry_source asc";
 $result=mysqli_query($con,$query_string2);
 while($array2 = mysqli_fetch_array($result)){
 $output .= "<option value=\"".$array2['enquiry_source']."\">".$array2['enquiry_source']."</option>";
@@ -131,19 +132,19 @@ while($array3 = mysqli_fetch_array($result)){
 
 
 $output .="<hr>";
-$output .="<h4>Question</h4>\n";
+$output .="<h3>Question</h3>\n";
 $output .="<textarea id=\"summernote\" name=\"question\">";
 $output .=$array3['question'];
 $output .="</textarea>\n";
 
 $output .="<hr>";
-$output .="<h4>Answer</h4>\n";
+$output .="<h3>Answer</h3>\n";
 $output .="<textarea id=\"summernote2\" name=\"answer\">";
 $output .=$array3['answer'];
 $output .="</textarea>\n";
 
 $output .="<hr>";
-$output .="<h4>Feedback</h4>\n";
+$output .="<h3>Feedback</h3>\n";
 $output .="<textarea id=\"summernote3\" name=\"enquirer_feedback\">";
 $output .=$array3['enquirer_feedback'];
 $output .="</textarea>\n";
@@ -153,21 +154,21 @@ $output .= "<input type =\"hidden\" name=\"qid\" value=".$qid.">";
 $output .= "<input type =\"hidden\" name=\"completed_es\" value=".$array['completed_es'].">";
 $output .= "<input type=\"submit\" value=\"Submit\" onclick=\"alert('Thanks for submitting a new enquiry')\"/>";
 $output .= "</form>";
-$output .="<br><br><br><br><br>";
+//$output .="<br><br><br><br><br>";
+$output .= "</div>";
 echo $output;
 $footer="";
-$footer .= "<nav class=\"navbar navbar-inverse navbar-fixed-bottom\">";
-$footer .= "<div class=\"container-fluid\">";
-$footer .= "<ul class=\"nav navbar-nav\">";
-$footer .= "<li><a target=\"new\" href=\"https://koha.kingsfund.org.uk\">Koha</a></li>";
-$footer .= "<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/:o:/r/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc=%7B7D15221E-DBEC-410A-8DB2-7D69BA43CC90%7D&file=Open%20Notebook.onetoc2&action=default\">IKS manual</a></li>";
-$footer .= "<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FEnquiries%2FResponse%20templates.one%7C0ec09d46-7cc5-4aaf-a986-581726dc5d5f%2FProject%20funding%20request%20response%7C48c42742-05f9-4cf0-a264-6681b09ceba2%2F%29&wdorigin=703\">Funding request answer template</a></li>";
-$footer .= "<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FInterlibrary%20loans.one%7C84b87dac-c5b7-4f37-ab22-c7e160ee25b0%2FInterlibrary%20loans%20procedure%7Cbe657322-256b-4cab-9651-058a384db36f%2F%29&wdorigin=703\">Photocopy request</a></li>";
-$footer .= "</ul>";
-$footer .= "</div>";
-$footer .= "</nav>";
+//$footer .= "<nav class=\"navbar navbar-inverse navbar-fixed-bottom\">";
+//$footer .= "<div class=\"container-fluid\">";
+//$footer .= "<ul class=\"nav navbar-nav\">";
+//$footer .= "<li><a target=\"new\" href=\"https://koha.kingsfund.org.uk\">Koha</a></li>";
+//$footer .= "<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/:o:/r/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc=%7B7D15221E-DBEC-410A-8DB2-7D69BA43CC90%7D&file=Open%20Notebook.onetoc2&action=default\">IKS manual</a></li>";
+//$footer .= "<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FEnquiries%2FResponse%20templates.one%7C0ec09d46-7cc5-4aaf-a986-581726dc5d5f%2FProject%20funding%20request%20response%7C48c42742-05f9-4cf0-a264-6681b09ceba2%2F%29&wdorigin=703\">Funding request answer template</a></li>";
+//$footer .= "<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FInterlibrary%20loans.one%7C84b87dac-c5b7-4f37-ab22-c7e160ee25b0%2FInterlibrary%20loans%20procedure%7Cbe657322-256b-4cab-9651-058a384db36f%2F%29&wdorigin=703\">Photocopy request</a></li>";
+//$footer .= "</ul>";
+//$footer .= "</div>";
+//$footer .= "</nav>";
 //echo $footer;
 
 mysqli_close($con);
 ?>
-
