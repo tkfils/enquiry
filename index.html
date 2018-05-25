@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Enquiry database - main page</title>
+    <!-- Bootstrap core CSS -->
+      <script src = "../jquery/jquery-3.3.1.min.js"></script>
+<script src="../bootstrap/bootstrap.js"></script>
+    <!-- Custom styles for this template -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- <script>document.getElementById("vcounter").reset();</script>
+<script>document.getElementById("quickstats").reset();</script> -->
+    <style>
+      body {
+        padding-top: 54px;
+      }
+      @media (min-width: 992px) {
+        body {
+          padding-top: 56px;
+        }
+      }
+    </style>
+     <script src = "https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+<script>
+$(document).ready(function(){
+$( "#tipselect" ).click(function() {     
+   $('#instructions').toggle("slide", { direction: "left" }, 1000);
+});
+});
+</script>
+<?php 
+if(isset($_GET['new'])){
+$con = mysqli_connect("localhost", "db", "user","pass");
+if (!$con)
+  {
+  die('Could not connect: ' . mysqli_error());
+  }
+$insertnew= "INSERT INTO `enquiry` (`status`) VALUES ('Open')";
+mysqli_query($con,$insertnew);
+$id = mysqli_insert_id($con);
+header("Location: add_enquiry.php?id=".$id);
+mysqli_close($con);
+}
+?>
+
+<?php 
+if(isset($_POST['visitor'])){
+$con = mysqli_connect("localhost", "db", "user","pass");
+if (!$con)
+  {
+  die('Could not connect: ' . mysqli_error());
+  }
+$type = $_POST['visitor'];
+$vest1="INSERT INTO visitors (type, whattime) VALUES ('$type', NOW())";
+mysqli_query($con,$vest1);
+mysqli_close($con);
+}
+?>
+<?php 
+if(isset($_POST['etype'])){
+$con = mysqli_connect("localhost", "db", "user","pass");
+if (!$con)
+  {
+  die('Could not connect: ' . mysqli_error());
+  }
+$today = date("F j, Y, g:i a");
+$etype = $_POST['etype'];
+$vtype = $_POST['vtype'];
+$method = $_POST['method'];
+$vest2="INSERT INTO quickstats (etype, vtype, method, date, whattime) VALUES ('$etype', '$vtype', '$method', '$today', NOW())";
+mysqli_query($con,$vest2);
+mysqli_close($con);
+}
+?>
+
+</head>
+<body>
+<div class="container-fluid">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">ENQUIRY DATABASE</a>
+    </div>
+    <ul class="nav navbar-nav">
+<li><a href="index.html?new=true">New enquiry</a></li>
+      <li><a href="#" id="tipselect">Search tips</a></li>
+<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FEnquiries%2FResponse%20templates.one%7C0ec09d46-7cc5-4aaf-a986-581726dc5d5f%2FGeneral%20enquiry%20response%7Cf6221d06-c5e2-44a0-bdce-dd390496c67c%2F%29&wdorigin=703\">General response template</a></li> 
+<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FEnquiries%2FResponse%20templates.one%7C0ec09d46-7cc5-4aaf-a986-581726dc5d5f%2FProject%20funding%20request%20response%7C48c42742-05f9-4cf0-a264-6681b09ceba2%2F%29&wdorigin=703\">Project funding response</a></li>
+<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FEnquiries%2FResponse%20templates.one%7C0ec09d46-7cc5-4aaf-a986-581726dc5d5f%2FAcademic%20funding%20request%20response%7C17534623-1a5c-4575-b1ce-3228669611ad%2F%29&wdorigin=703\">Academic funding response</a></li>
+<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FEnquiries%2FResponse%20templates.one%7C0ec09d46-7cc5-4aaf-a986-581726dc5d5f%2FPatient%20complaint%20response%7C521c9488-df3e-4665-8ad7-2ca7df830bd3%2F%29&wdorigin=703\">Patient complaint response</a></li>
+<li><a target=\"new\" href=\"https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FEnquiries%2FResponse%20templates.one%7C0ec09d46-7cc5-4aaf-a986-581726dc5d5f%2FInternship%20and%20work%20experience%20response%7C0301f17a-e6e6-460d-8207-08b5b4b7f65d%2F%29&wdorigin=703\">Internship response</a></li> 
+    </ul>
+  </div>
+</nav>
+<h3>Search enquiries</h3>
+
+
+<form name="searchenq" action="search.php" method="post">
+
+<label>&nbsp;Status:&nbsp;</label>
+<select name="qstatus">
+<option selected="selected" value="">Any</option>
+<option value="open">Open</option>
+<option value="pending">Pending</option>
+<option value="completed">Completed</option>
+<option value="archived">Archived</option>
+
+</select>
+<label>&nbsp;Source:&nbsp;</label>
+<select name="qformat">
+<option selected="selected" value="">Any</option>
+<option value="email">Email</option>
+<option value="phone">Phone</option>
+<option value="visitor">Visitor</option>
+<option value="aal">Ask a Librarian</option>
+<option value="postal">Postal</option>
+<option value="twitter">Twitter</option>
+<option value="im">Instant Messenger</option>
+</select>
+
+<label>&nbsp;Name:&nbsp;</label>
+<select name="uname">
+<option selected="selected" value="">Any</option>
+<?php
+$con = mysqli_connect("localhost", "db", "user","pass");
+$query_string = "select distinct enquirer_name from enquiry where enquirer_name <> '' order by enquirer_name asc";
+$result=mysqli_query($con,$query_string);
+while($array = mysqli_fetch_array($result)){
+$name= trim($array['enquirer_name']," ");
+echo "<option value=\"".$name."\">".$array['enquirer_name']."</option>";
+}
+echo "</select><label>&nbsp;Type:&nbsp;</label><select name=\"utype\">";
+echo "<option selected=\"selected\" value=\"\">Any</option>";
+$query_string = "select distinct enquirer_category from enquiry where enquirer_category <> '' order by enquirer_category asc";
+$result=mysqli_query($con,$query_string);
+echo "<label>&nbsp;Category:&nbsp;</label>";
+while($array = mysqli_fetch_array($result)){
+echo "<option value=\"".$array['enquirer_category']."\">".$array['enquirer_category']."</option>";
+}
+
+echo "</select><label>&nbsp;Subject:&nbsp;</label><select name=\"subject\">";
+echo "<option selected=\"selected\" value=\"\">Any</option>";
+$query_string = "select id, subject from subjects order by subject asc";
+$result=mysqli_query($con,$query_string);
+while($array = mysqli_fetch_array($result)){
+echo "<option value=".$array['id'].">".$array['subject']."</option>";
+}
+echo "</select>";
+?>
+
+<label>&nbsp;Start:&nbsp;</label><input value="" name="start_date" type = "date"></td>
+<label>&nbsp;End:&nbsp;</label><input value="" name="end_date" type = "date"></td>
+<label>&nbsp;Query:&nbsp;</label><input type="text" name="query" value="" width="255" />
+<input type="submit" value="Search" />
+</form>
+
+<p>
+<div id="instructions" style="display:none;">
+OR: public health : Results which contain the word public OR the word health.
+<br>PHRASE: "public health" : Results which contain the exact PHRASE "public health".
+<br>AND: +public +health : Results which contain the word public AND the word health.
+<br>NOT: public -health : Results which contain the word public but NOT the word health.
+<br>ALTERNATE: +public +(health policy) : public and health or policy (or both). 
+<br>RELEVANCE: &gt;public health : Results contain the word public or the word health, with those containing public rated as more relevant.
+<br>RELEVANCE: public health &lt;policy : Results contain the word public or the word health or the word policy, with those containing policy rated as less relevant.
+<br>WORD LENGTH : I've set the minimum word length as 3 to include terms such as NHS. There is a list of stopwords including the usuals (the, and, etc.). 
+<br>WILDCARD SYMBOL: *
+</div>
+<hr>
+<h3>Visitor counter</h3>
+
+<FORM id="vcounter" METHOD=POST name="vcounter" ACTION="">
+<label>&nbsp;IKS visitor:&nbsp;</label>
+<select required id="visitor" name="visitor">
+<option value="">Select: </option>
+<option value="EXTNL" />External</option>
+<option value="STAFF" />Staff</option>
+</select>
+&nbsp;
+<input type="submit" value="Submit" />
+</form>
+<hr>
+<h3>Quick stats</h3>
+<form id="quickstats" name="quickstats" action="" method="post">
+<label>&nbsp;Visitor type:&nbsp;</label> <select required id="vtype" name="vtype">
+<option value=""> Choose</option>   
+    <option value="aca" />Academic</option>
+    <option value="com" />Commercial</option>
+<option value="gov" />Government</option>
+    <option value="kfs" />King's Fund staff</option>
+    <option value="nhs" />NHS</option>
+    <option value="ovs" />Overseas</option>
+<option value="pub" />Public</option>
+<option value="stu" />Student</option>
+<option value="xyz" />Unknown</option>
+<option value="vol" />Voluntary</option>
+</select>
+<label>&nbsp;Enquiry type:&nbsp;</label>
+  <select required id="etype" name="etype">
+ <option value=""> Choose</option> 
+<option value="bib" />Bibliographic</option>
+<option value="kfi" />King's Fund information</option>
+<option value="qic" />Quick reference</option>
+</select>
+
+<label>&nbsp;Enquiry method:&nbsp;</label>
+<select required id="method" name="method">
+ <option value=""> Choose</option>
+<option value="ema" />Email</option>
+<option value="tel" />Phone</option>
+<option value="vis" />Visitor</option>
+</select>
+&nbsp;
+<input type="submit" value="Submit" />
+
+<!-- <nav class="navbar navbar-inverse navbar-fixed-bottom">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li><a target="new" href="https://koha.kingsfund.org.uk">Koha</a></li>
+      <li><a target="new" href="https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc=%7B7D15221E-DBEC-410A-8DB2-7D69BA43CC90%7D&file=Open%20Notebook.onetoc2&action=default">IKS manual</a></li>
+      <li><a target="new" href="https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FEnquiries%2FResponse%20templates.one%7C0ec09d46-7cc5-4aaf-a986-581726dc5d5f%2FGeneral%20enquiry%20response%7Cf6221d06-c5e2-44a0-bdce-dd390496c67c%2F%29&wdorigin=703">Reply template</a></li>
+      <li><a target="new" href="https://kingsfund.sharepoint.com/:o:/r/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FEnquiries%2FResponse%20templates.one%7C0ec09d46-7cc5-4aaf-a986-581726dc5d5f%2FProject%20funding%20request%20response%7C48c42742-05f9-4cf0-a264-6681b09ceba2%2F%29&wdorigin=703">Funding reply template</a></li>
+      <li><a target="new" href="https://kingsfund.sharepoint.com/sites/BAU/SOM/SOPS/_layouts/15/WopiFrame.aspx?sourcedoc={eef53ac9-f730-4fa1-a8d4-8fb07370c1cb}&action=edit&wdLOR=&wd=target%28%2F%2FInterlibrary%20loans.one%7C84b87dac-c5b7-4f37-ab22-c7e160ee25b0%2FInterlibrary%20loans%20procedure%7Cbe657322-256b-4cab-9651-058a384db36f%2F%29&wdorigin=703">Photocopy request</a></li>
+    </ul>
+  </div>     
+</nav> -->
+</div>
+<script>document.getElementById("vcounter").reset();</script>
+<script>document.getElementById("quickstats").reset();</script>
+</body>
+</html>
